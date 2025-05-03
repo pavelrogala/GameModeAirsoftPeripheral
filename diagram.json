@@ -1,0 +1,56 @@
+{
+    "version": 1,
+    "author": "Pavel Rogala",
+    "editor": "wokwi",
+    "parts": [
+      { "type": "wokwi-arduino-nano", "id": "nano", "top": 0, "left": 0, "attrs": {} },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "team-a",
+        "top": -80.2,
+        "left": -96,
+        "attrs": { "color": "green", "xray": "1", "label":"Team A"}
+      },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "team-b",
+        "top": -80.2,
+        "left": 201.6,
+        "attrs": { "color": "green", "xray": "1", "label":"Team B"}
+      },
+      {
+        "type": "wokwi-pushbutton-6mm",
+        "id": "team-n",
+        "top": -69.4,
+        "left": 67.2,
+        "attrs": { "color": "green", "xray": "1", "label":"Team N"}
+      },
+      {
+        "type": "wokwi-led",
+        "id": "team-a-led",
+        "top": 73.2,
+        "left": -44.2,
+        "attrs": { "color": "limegreen" }
+      },
+      {
+        "type": "wokwi-led",
+        "id": "team-b-led",
+        "top": 73.2,
+        "left": 176.6,
+        "attrs": { "color": "blue" }
+      }
+    ],
+    "connections": [
+      [ "team-b:1.l", "nano:2", "green", [ "h-86.4" ] ],
+      [ "team-b:2.l", "nano:GND.2", "green", [ "h-76.8", "v0.2" ] ],
+      [ "team-a:2.r", "nano:GND.2", "green", [ "h67.4", "v38.6", "h86.4" ] ],
+      [ "team-a:1.r", "nano:3", "green", [ "v0", "h77", "v48", "h57.6" ] ],
+      [ "team-n:2.r", "nano:4", "green", [ "h0" ] ],
+      [ "team-n:1.r", "nano:GND.2", "green", [ "v0", "h29.6" ] ],
+      [ "team-a-led:C", "nano:GND.1", "green", [ "v19.2", "h0.4" ] ],
+      [ "team-b-led:C", "nano:GND.1", "green", [ "v-9.6", "h-47.6" ] ],
+      [ "team-b-led:A", "nano:5", "green", [ "v9.6", "h0", "v28.8", "h-259.2", "v-163.2", "h144" ] ],
+      [ "team-a-led:A", "nano:6", "green", [ "v0", "h9.6", "v-124.8", "h86.4" ] ]
+    ],
+    "dependencies": {}
+  }
