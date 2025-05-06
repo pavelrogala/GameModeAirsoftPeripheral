@@ -1,11 +1,11 @@
 #include <Arduino.h>
 
-const int teamAButtonPin = 3;
-const int teamBButtonPin = 2;
-const int teamNButtonPin = 4;
+const int teamAButtonPin = 15;
+const int teamBButtonPin = 16;
+const int teamNButtonPin = 18;
 
-const int teamALedPin = 6;
-const int teamBLedPin = 5;
+const int teamALedPin = 25;
+const int teamBLedPin = 27;
 
 unsigned long lastPrintTime = 0;
 const unsigned long printInterval = 5000; // 30 seconds
@@ -47,6 +47,7 @@ void loop() {
   else if (digitalRead(teamNButtonPin) == LOW) { // Neutral button pressed
     if (currentTeam != "") {
       currentTeam = "";
+      Serial.println("Neutral");
     }
     digitalWrite(teamALedPin, LOW);
     digitalWrite(teamBLedPin, LOW);
