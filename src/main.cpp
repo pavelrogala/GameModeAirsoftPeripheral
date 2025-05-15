@@ -1,4 +1,10 @@
 #include <Arduino.h>
+#include <LoRa.h>
+#include <SPI.h>
+
+#define ss   5   // Chip select pin for LoRa
+#define rst  14  // Reset pin for LoRa
+#define dio0 2   // Interrupt pin for LoRa
 
 const int teamAButtonPin = 15;
 const int teamBButtonPin = 16;
@@ -24,7 +30,23 @@ void setup() {
   digitalWrite(teamALedPin, LOW);
   digitalWrite(teamBLedPin, LOW);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
+  while (!Serial);
+  Serial.println("LoRa Sender");
+
+  // Setup LoRa transceiver module
+  LoRa.setPins(ss, rst, dio0);
+
+  // Try to initialize LoRa
+  while (!LoRa.begin(433E6)) {
+    Serial.println(".");
+    delay(500);  // Wait and keep trying to initialize LoRa
+  }
+
+  // Set sync word to ensure you're not receiving messages from other LoRa modules
+  LoRa.setSyncWord(0xF3);
+
+  Serial.println("LoRa Initializing OK!");
 }
 
 void loop() {
@@ -32,6 +54,9 @@ void loop() {
     if (currentTeam != "Team:A") {
       currentTeam = "Team:A";
       Serial.println("Team:A");
+      LoRa.beginPacket();
+      LoRa.print("Zone:A,Team:A");
+      LoRa.endPacket();
     }
     digitalWrite(teamALedPin, HIGH);
     digitalWrite(teamBLedPin, LOW);
@@ -40,6 +65,9 @@ void loop() {
     if (currentTeam != "Team:B") {
       currentTeam = "Team:B";
       Serial.println("Team:B");
+      LoRa.beginPacket();
+      LoRa.print("Zone:A,Team:B");
+      LoRa.endPacket();
     }
     digitalWrite(teamALedPin, LOW);
     digitalWrite(teamBLedPin, HIGH);
@@ -48,6 +76,9 @@ void loop() {
     if (currentTeam != "") {
       currentTeam = "";
       Serial.println("Neutral");
+      LoRa.beginPacket();
+      LoRa.print("Zone:A,Team:N");
+      LoRa.endPacket();
     }
     digitalWrite(teamALedPin, LOW);
     digitalWrite(teamBLedPin, LOW);
@@ -56,6 +87,11 @@ void loop() {
   // Handle periodic Serial printing
   if (currentTeam != "" && millis() - lastPrintTime >= printInterval) {
     Serial.println(currentTeam);
+    String message = "Zone:A,";
+    message.concat(currentTeam);
+    LoRa.beginPacket();
+    LoRa.print(message);
+    LoRa.endPacket();
     lastPrintTime = millis();
   }
 }
