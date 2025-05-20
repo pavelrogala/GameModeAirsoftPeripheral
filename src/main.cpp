@@ -8,7 +8,7 @@
 
 const int teamAButtonPin = 15;
 const int teamBButtonPin = 16;
-const int teamNButtonPin = 18;
+const int teamNButtonPin = 17;
 
 const int teamALedPin = 25;
 const int teamBLedPin = 27;
